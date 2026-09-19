@@ -8,6 +8,13 @@ import fitz
 import genanki
 
 
+def ensure_output_path_available(output_path: Path, overwrite: bool = False) -> None:
+    if output_path.exists() and not overwrite:
+        raise FileExistsError(
+            f"Output file already exists: {output_path}. Use --overwrite to replace it."
+        )
+
+
 def normalize_text(value: str) -> str:
     return " ".join(value.strip().split())
 
@@ -88,27 +95,43 @@ def make_deck(pdf_path: str, deck_name: str = "PDF Deck") -> genanki.Deck:
     return deck
 
 
-def export_pdf_to_anki(pdf_path: str, output_path: str | None = None, deck_name: str | None = None) -> str:
+def export_pdf_to_anki(
+    pdf_path: str,
+    output_path: str | None = None,
+    deck_name: str | None = None,
+    overwrite: bool = False,
+) -> str:
     source_path = Path(pdf_path)
     if output_path is None:
         output_path = str(source_path.with_suffix(".apkg"))
+
+    destination = Path(output_path)
+    ensure_output_path_available(destination, overwrite)
 
     deck = make_deck(str(source_path), deck_name or source_path.stem or "PDF Deck")
     package = genanki.Package(deck)
     media_dir = source_path.parent / ".anki_media"
     package.media_files = [str(path) for path in sorted(media_dir.glob("*.png"))]
-    package.write_to_file(output_path)
-    return output_path
+    package.write_to_file(str(destination))
+    return str(destination)
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Convert a PDF into an Anki deck.")
+    parser = argparse.ArgumentParser(
+        description="Convert a standard iRealB PDF into an Anki deck with one card per page.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument("pdf_path", help="Path to the source PDF file")
     parser.add_argument("-o", "--output", help="Destination .apkg path")
     parser.add_argument("--deck-name", help="Name of the Anki deck to create")
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Overwrite the destination file if it already exists.",
+    )
     args = parser.parse_args()
 
-    output = export_pdf_to_anki(args.pdf_path, args.output, args.deck_name)
+    output = export_pdf_to_anki(args.pdf_path, args.output, args.deck_name, args.overwrite)
     print(f"Created Anki deck: {output}")
 
 

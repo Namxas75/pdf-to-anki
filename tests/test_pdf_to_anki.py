@@ -1,4 +1,8 @@
-from pdf_to_anki import extract_page_title, build_notes_from_pdf, make_deck
+import shutil
+
+import pytest
+
+from pdf_to_anki import extract_page_title, build_notes_from_pdf, export_pdf_to_anki, make_deck
 
 
 def test_extract_page_title_prefers_heading_like_line():
@@ -35,3 +39,13 @@ def test_make_deck_uses_pdf_title_as_deck_name():
     deck = make_deck("tests/fixtures/simple.pdf", "PDF Deck")
 
     assert deck.name == "PDF Deck"
+
+
+def test_export_pdf_to_anki_refuses_to_overwrite_without_permission(tmp_path):
+    source = tmp_path / "source.pdf"
+    shutil.copy("tests/fixtures/simple.pdf", source)
+    output = tmp_path / "source.apkg"
+    output.write_bytes(b"existing")
+
+    with pytest.raises(FileExistsError):
+        export_pdf_to_anki(str(source), str(output))
