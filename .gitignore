@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Generated files
+.anki_media/
+*.apkg
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
