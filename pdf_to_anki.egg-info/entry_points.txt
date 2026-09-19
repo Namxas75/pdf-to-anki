@@ -1,0 +1,2 @@
+[console_scripts]
+pdf-to-anki = pdf_to_anki:main

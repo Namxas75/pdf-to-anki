@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdf-to-anki"
+version = "0.1.0"
+description = "Convert standard iRealB PDFs into Anki decks with one card per page"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "mpv" }
+]
+dependencies = [
+  "PyMuPDF==1.24.10",
+  "genanki==0.13.0",
+]
+
+[project.scripts]
+pdf-to-anki = "pdf_to_anki:main"
+
+[tool.setuptools]
+py-modules = ["pdf_to_anki"]

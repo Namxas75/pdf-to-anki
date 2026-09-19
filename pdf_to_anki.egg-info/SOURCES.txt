@@ -1,0 +1,10 @@
+README.md
+pdf_to_anki.py
+pyproject.toml
+pdf_to_anki.egg-info/PKG-INFO
+pdf_to_anki.egg-info/SOURCES.txt
+pdf_to_anki.egg-info/dependency_links.txt
+pdf_to_anki.egg-info/entry_points.txt
+pdf_to_anki.egg-info/requires.txt
+pdf_to_anki.egg-info/top_level.txt
+tests/test_pdf_to_anki.py

@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: pdf-to-anki
+Version: 0.1.0
+Summary: Convert standard iRealB PDFs into Anki decks with one card per page
+Author: mpv
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: PyMuPDF==1.24.10
+Requires-Dist: genanki==0.13.0
+
+# PDF to Anki deck converter
+
+A lightweight Python CLI for converting standard iRealB PDF exports into an Anki deck.
+
+## Behavior
+- Each PDF page becomes one Anki card
+- The page title goes on the front of the card
+- The full rendered page graphic goes on the back of the card
+- The output is a valid `.apkg` deck file
+
+## Usage
+
+```bash
+./.venv/bin/python main.py path/to/input.pdf --deck-name "My Deck"
+```
+
+This creates a file next to the PDF, for example:
+
+```bash
+path/to/input.apkg
+```
+
+## Scope
+This tool is intentionally focused on the standard PDFs exported directly from iRealB. It is not a general-purpose PDF converter for arbitrary scanned or malformed PDFs.
+
+## Stack
+- Python
+- PyMuPDF
+- genanki
+- pytest

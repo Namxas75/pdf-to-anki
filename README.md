@@ -8,13 +8,35 @@ A lightweight Python CLI for converting standard iRealB PDF exports into an Anki
 - The full rendered page graphic goes on the back of the card
 - The output is a valid `.apkg` deck file
 
-## Usage
+## Install
+
+From the project directory:
 
 ```bash
-./.venv/bin/python main.py path/to/input.pdf --deck-name "My Deck"
+python -m pip install -e .
 ```
 
-This creates a file next to the PDF, for example:
+Or, if you want to use the local virtual environment:
+
+```bash
+./.venv/bin/python -m pip install -e .
+```
+
+## Usage
+
+After installation, the CLI is available as:
+
+```bash
+pdf-to-anki path/to/input.pdf --deck-name "My Deck"
+```
+
+To overwrite an existing output file:
+
+```bash
+pdf-to-anki path/to/input.pdf --deck-name "My Deck" --overwrite
+```
+
+This creates a deck next to the PDF, for example:
 
 ```bash
 path/to/input.apkg
