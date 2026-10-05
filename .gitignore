@@ -15,6 +15,7 @@ htmlcov/
 .anki_media/
 *.apkg
 *.pdf
+!tests/fixtures/simple.pdf
 
 # OS/editor files
 .DS_Store

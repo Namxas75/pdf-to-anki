@@ -1,22 +1,32 @@
-# PDF to Anki deck converter
+# PDF to Anki Deck Converter
 
-A lightweight Python CLI for converting standard iRealB PDF exports into an Anki deck.
+A lightweight Python CLI for turning standard PDF exports into Anki flashcards.
 
-## Behavior
-- Each PDF page becomes one Anki card
-- The page title goes on the front of the card
-- The full rendered page graphic goes on the back of the card
-- The output is a valid `.apkg` deck file
+This project converts a page-based PDF into a ready-to-import Anki deck. Each page becomes one card: the front shows the page title, and the back includes the actual rendered page image from the original PDF.
 
-## Install
+## Features
 
-From the project directory:
+- Converts a PDF into a deck with one card per page
+- Extracts a clean title from each page
+- Renders the original page graphic for the card back
+- Exports a valid `.apkg` file for import into Anki
+- Works well with standard, readable PDF exports such as iRealB output
+
+## Scope
+
+This project is intentionally focused on clean, structured PDFs rather than arbitrary scanned or malformed documents. It is optimized for reliability and simplicity over general-purpose PDF conversion.
+
+## Installation
+
+Clone the repository and install it in editable mode:
 
 ```bash
+git clone https://github.com/your-username/pdf-to-anki.git
+cd pdf-to-anki
 python -m pip install -e .
 ```
 
-Or, if you want to use the local virtual environment:
+If you want to use the project virtual environment instead:
 
 ```bash
 ./.venv/bin/python -m pip install -e .
@@ -42,11 +52,17 @@ This creates a deck next to the PDF, for example:
 path/to/input.apkg
 ```
 
-## Scope
-This tool is intentionally focused on the standard PDFs exported directly from iRealB. It is not a general-purpose PDF converter for arbitrary scanned or malformed PDFs.
+## Example
+
+A 30-page PDF becomes a 30-card deck. Each card corresponds to one page, and the back of the card contains the actual page image so it remains visually faithful to the source document.
 
 ## Stack
+
 - Python
 - PyMuPDF
 - genanki
 - pytest
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
