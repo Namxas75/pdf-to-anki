@@ -44,7 +44,7 @@ On Windows:
 run.bat "C:\path\to\irealb-export.pdf" --deck-name "My iRealB Deck"
 ```
 
-This handles the environment setup automatically so you do not need to run Git, pip, or venv commands manually.
+This handles the environment setup automatically, so you do not need to run Git, pip, or venv commands manually.
 
 ### Option 2: standard Python install
 
@@ -76,7 +76,9 @@ Or, if you are using the helper script from the project folder:
 ./run.sh /path/to/irealb-export.pdf --deck-name "My iRealB Deck"
 ```
 
-This creates an `.apkg` file next to the source PDF. For example, if your file is:
+This creates an `.apkg` file next to the source PDF, so the workflow stays simple: export the PDF from iRealB, run the tool, import the deck into Anki.
+
+For example, if your file is:
 
 ```bash
 /Users/you/Desktop/irealb-export.pdf
