@@ -2,6 +2,10 @@
 
 This tool is made for people using iRealB and wanting to turn a standard iRealB PDF export into an Anki deck.
 
+Project links:
+- GitHub: https://github.com/Namxas75/pdf-to-anki
+- Issues: https://github.com/Namxas75/pdf-to-anki/issues
+
 If you found this project on the iRealB forum, the workflow is simple:
 
 1. Export a tune or setlist from iRealB as a PDF
@@ -51,7 +55,7 @@ This handles the environment setup automatically, so you do not need to run Git,
 If you prefer the usual setup, clone the repository and install it in editable mode:
 
 ```bash
-git clone https://github.com/your-username/pdf-to-anki.git
+git clone https://github.com/Namxas75/pdf-to-anki.git
 cd pdf-to-anki
 python -m pip install -e .
 ```
