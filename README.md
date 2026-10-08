@@ -28,7 +28,27 @@ It works best with normal iRealB exports rather than badly formatted, low-qualit
 
 You need Python 3.9 or newer.
 
-Clone the repository and install it in editable mode:
+For the easiest setup, use the project helper script. It creates a local virtual environment and installs the dependencies for you.
+
+### Option 1: easiest local setup
+
+From the project folder:
+
+```bash
+./run.sh /path/to/irealb-export.pdf --deck-name "My iRealB Deck"
+```
+
+On Windows:
+
+```bat
+run.bat "C:\path\to\irealb-export.pdf" --deck-name "My iRealB Deck"
+```
+
+This handles the environment setup automatically so you do not need to run Git, pip, or venv commands manually.
+
+### Option 2: standard Python install
+
+If you prefer the usual setup, clone the repository and install it in editable mode:
 
 ```bash
 git clone https://github.com/your-username/pdf-to-anki.git
@@ -36,7 +56,7 @@ cd pdf-to-anki
 python -m pip install -e .
 ```
 
-If you already use a local virtual environment, this is the same idea:
+If you already use a local virtual environment:
 
 ```bash
 ./.venv/bin/python -m pip install -e .
@@ -44,10 +64,16 @@ If you already use a local virtual environment, this is the same idea:
 
 ## Quick start
 
-After installation, the CLI is available as:
+After installation, the CLI can be used directly:
 
 ```bash
 pdf-to-anki /path/to/irealb-export.pdf --deck-name "My iRealB Deck"
+```
+
+Or, if you are using the helper script from the project folder:
+
+```bash
+./run.sh /path/to/irealb-export.pdf --deck-name "My iRealB Deck"
 ```
 
 This creates an `.apkg` file next to the source PDF. For example, if your file is:
