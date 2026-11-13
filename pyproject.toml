@@ -9,7 +9,7 @@ description = "Convert standard iRealB PDFs into Anki decks with one card per pa
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [
-  { name = "mpv" }
+  { name = "Troels Busk-Jepsen" }
 ]
 dependencies = [
   "PyMuPDF==1.24.10",
