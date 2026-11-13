@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import html
+import random
+import shutil
 from pathlib import Path
 from typing import Dict, List
 
@@ -39,10 +42,10 @@ def extract_page_title(page_text: str) -> str:
     return "Untitled Page"
 
 
-def render_page_image(doc: fitz.Document, page_number: int, output_dir: Path) -> str:
+def render_page_image(doc: fitz.Document, page_number: int, output_dir: Path, image_stem: str) -> str:
     page = doc[page_number]
     pix = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
-    image_name = f"page_{page_number + 1:03d}.png"
+    image_name = f"{image_stem}_page_{page_number + 1:03d}.png"
     image_path = output_dir / image_name
     pix.save(str(image_path))
     return image_name
@@ -51,16 +54,21 @@ def render_page_image(doc: fitz.Document, page_number: int, output_dir: Path) ->
 def build_notes_from_pdf(pdf_path: str, media_dir: str | None = None) -> List[Dict[str, str]]:
     doc = fitz.open(pdf_path)
     output_dir = Path(media_dir) if media_dir else Path(pdf_path).resolve().parent / ".anki_media"
+    # Start from an empty media folder so a previous conversion's pages
+    # can never leak into this deck.
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    image_stem = Path(pdf_path).stem
     notes: List[Dict[str, str]] = []
     for page_number in range(len(doc)):
         page_text = doc[page_number].get_text("text").strip()
         title = extract_page_title(page_text)
-        image_name = render_page_image(doc, page_number, output_dir)
+        image_name = render_page_image(doc, page_number, output_dir, image_stem)
         notes.append({
             "front": title,
-            "back": f'<img src="{image_name}" alt="{title}" />',
+            "back": f'<img src="{image_name}" alt="{html.escape(title, quote=True)}" />',
             "image": str(output_dir / image_name),
         })
 
@@ -69,8 +77,10 @@ def build_notes_from_pdf(pdf_path: str, media_dir: str | None = None) -> List[Di
 
 
 def make_deck(pdf_path: str, deck_name: str = "PDF Deck") -> genanki.Deck:
-    deck_id = 2024091901
-    model_id = 2024091902
+    # Random IDs so each import becomes its own deck in Anki instead of
+    # merging with (or overwriting) a previous one.
+    deck_id = random.randrange(1 << 30, 1 << 31)
+    model_id = random.randrange(1 << 30, 1 << 31)
 
     model = genanki.Model(
         model_id,
@@ -111,7 +121,9 @@ def export_pdf_to_anki(
     deck = make_deck(str(source_path), deck_name or source_path.stem or "PDF Deck")
     package = genanki.Package(deck)
     media_dir = source_path.parent / ".anki_media"
-    package.media_files = [str(path) for path in sorted(media_dir.glob("*.png"))]
+    package.media_files = [
+        str(path) for path in sorted(media_dir.glob(f"{source_path.stem}_page_*.png"))
+    ]
     package.write_to_file(str(destination))
     return str(destination)
 
@@ -130,6 +142,12 @@ def main() -> None:
         help="Overwrite the destination file if it already exists.",
     )
     args = parser.parse_args()
+
+    input_path = Path(args.pdf_path)
+    if not input_path.is_file():
+        parser.error(f"input file not found: {args.pdf_path}")
+    if input_path.suffix.lower() != ".pdf":
+        parser.error(f"input file must be a PDF: {args.pdf_path}")
 
     output = export_pdf_to_anki(args.pdf_path, args.output, args.deck_name, args.overwrite)
     print(f"Created Anki deck: {output}")
