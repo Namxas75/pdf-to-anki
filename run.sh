@@ -9,7 +9,6 @@ if [ ! -d ".venv" ]; then
 fi
 
 VENV_PYTHON="$SCRIPT_DIR/.venv/bin/python"
-"$VENV_PYTHON" -m pip install --upgrade pip
 "$VENV_PYTHON" -m pip install -r requirements.txt
 "$VENV_PYTHON" -m pip install -e .
 
