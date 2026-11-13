@@ -130,6 +130,15 @@ A 30-page iRealB export becomes a 30-card deck. Each card corresponds to one pag
 - genanki
 - pytest
 
+## Running the tests
+
+The test suite needs pytest, which is kept out of the main dependencies:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
